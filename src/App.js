@@ -16,8 +16,35 @@ class App extends Component {
         { description: "Read the baby a bedtime story", isCompleted: false },
         { description: "Feed the baby a bottle", isCompleted: false },
         { description: "Put the baby to bed", isCompleted: false }
-      ]
+      ],
+      newTodoDescription: ""
     };
+  }
+
+  handleChange(e) {
+    this.setState({ newTodoDescription: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const descr = this.state.newTodoDescription;
+    if (!descr) { return }
+
+    const newTodo = {
+      description: descr,
+      isCompleted: false
+    };
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+      newTodoDescription: ""
+    });
+  }
+
+  toggleComplete(index) {
+    const todos = this.state.todos.slice();
+    const todo = todos[index];
+    todo.isCompleted = !todo.isCompleted;
+    this.setState({ todos: todos });
   }
 
   render() {
@@ -29,9 +56,17 @@ class App extends Component {
               key={ index }
               description={ todo.description }
               isCompleted={ todo.isCompleted }
+              toggleComplete={ () => this.toggleComplete(index) }
             />
           )}
         </ul>
+        <form onSubmit={ (e) => this.handleSubmit(e) }>
+          <input type="text"
+            value={ this.state.newTodoDescription }
+            onChange={ (e) => this.handleChange(e) }
+          />
+          <input type="submit" />
+        </form>
       </div>
     );
   }
