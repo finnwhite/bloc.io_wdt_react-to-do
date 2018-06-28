@@ -9,6 +9,10 @@ class ToDo extends Component {
           onChange={ this.props.toggleComplete }
         />
         <span>{ this.props.description }</span>
+        <input type="button"
+          value="Delete"
+          onClick={ this.props.deleteTodo }
+        />
       </li>
     );
   }
